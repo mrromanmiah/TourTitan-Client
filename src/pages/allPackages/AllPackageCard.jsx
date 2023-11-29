@@ -1,8 +1,7 @@
 
 
-const PackagesCard = ({ tourPackage }) => {
-
-  const { image, tourType, tripTitle, price } = tourPackage || {};
+const AllPackageCard = ({allPackage}) => {
+    const { image, tourType, tripTitle, price } = allPackage || {};
 
   return (
     <div className="relative flex w-full flex-col rounded-xl bg-white bg-clip-border shadow-lg">
@@ -57,4 +56,4 @@ const PackagesCard = ({ tourPackage }) => {
   );
 };
 
-export default PackagesCard;
+export default AllPackageCard;

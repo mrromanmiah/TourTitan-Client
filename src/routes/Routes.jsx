@@ -7,6 +7,8 @@ import Community from "../pages/navbarPages/Community";
 import Blogs from "../pages/navbarPages/Blogs";
 import AboutUs from "../pages/navbarPages/AboutUs";
 import ContactUs from "../pages/navbarPages/ContactUs";
+import AllPackages from "../pages/allPackages/AllPackages";
+import PackageByType from "../components/tourTypes/PackageByType";
 
 
 
@@ -34,6 +36,15 @@ export const router = createBrowserRouter([
             {
                 path: '/contactUs',
                 element: <ContactUs></ContactUs>
+            },
+            {
+                path: '/allPackages',
+                element: <AllPackages></AllPackages>
+            },
+            {
+                path: '/packages/:tourType',
+                element: <PackageByType></PackageByType>,
+                loader: ({params}) => fetch (`http://localhost:5000/packages/${params.tourType}`)
             }
         ],
     },
