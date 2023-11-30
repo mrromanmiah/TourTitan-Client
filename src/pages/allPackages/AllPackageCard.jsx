@@ -1,7 +1,8 @@
+import { Link } from "react-router-dom";
 
 
 const AllPackageCard = ({allPackage}) => {
-    const { image, tourType, tripTitle, price } = allPackage || {};
+    const {_id, image, tourType, tripTitle, price } = allPackage || {};
 
   return (
     <div className="relative flex w-full flex-col rounded-xl bg-white bg-clip-border shadow-lg">
@@ -44,6 +45,7 @@ const AllPackageCard = ({allPackage}) => {
         </div>
       </div>
       <div className="p-6 pt-3">
+        <Link to={`/details/${_id}`} >
         <button
           className="block w-full select-none rounded-lg bg-[#ffb229] py-2 text-center align-middle lg:text-lg md:text-base text-sm font-bold text-white shadow-md shadow-[#ffb229]/20 transition-all hover:shadow-lg hover:shadow-[#ffb229]/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button"
@@ -51,6 +53,7 @@ const AllPackageCard = ({allPackage}) => {
         >
           View Package
         </button>
+        </Link>
       </div>
     </div>
   );

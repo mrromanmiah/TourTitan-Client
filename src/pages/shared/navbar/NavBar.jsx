@@ -21,7 +21,7 @@ const NavBar = () => {
             <div className="flex gap-2 md:order-2">
                 
                 {
-                    user? <div>
+                    user? <div className='flex gap-2'>
                         <Dropdown
                     arrowIcon={false}
                     inline
