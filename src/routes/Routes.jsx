@@ -9,6 +9,9 @@ import AboutUs from "../pages/navbarPages/AboutUs";
 import ContactUs from "../pages/navbarPages/ContactUs";
 import AllPackages from "../pages/allPackages/AllPackages";
 import PackageByType from "../components/tourTypes/PackageByType";
+import Login from "../pages/authentication/Login";
+import Register from "../pages/authentication/Register";
+import Details from "../pages/details/Details";
 
 
 
@@ -45,7 +48,20 @@ export const router = createBrowserRouter([
                 path: '/packages/:tourType',
                 element: <PackageByType></PackageByType>,
                 loader: ({params}) => fetch (`http://localhost:5000/packages/${params.tourType}`)
-            }
+            },
+            {
+                path: '/login',
+                element: <Login></Login>
+            },
+            {
+                path: '/register',
+                element: <Register></Register>
+            },
+            {
+                path: '/details/:id',
+                element: <Details></Details>,
+                loader: ({params}) => fetch (`http://localhost:5000/package/${params.id}`)
+              },
         ],
     },
 ]);

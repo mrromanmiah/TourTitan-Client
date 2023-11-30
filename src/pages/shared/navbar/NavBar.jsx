@@ -1,7 +1,15 @@
 import { Avatar, Dropdown, Navbar } from 'flowbite-react';
-import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { AuthContext } from '../../../providers/AuthProvider';
 
 const NavBar = () => {
+    const {user, logOut} = useContext(AuthContext)
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.log(error));
+    }
     return (
 
 
@@ -11,24 +19,34 @@ const NavBar = () => {
                 <span className="self-center whitespace-nowrap text-3xl font-semibold dark:text-white"><span className='text-[#ffb229]'>Tour</span>Titan</span>
             </Navbar.Brand>
             <div className="flex gap-2 md:order-2">
-                <Dropdown
+                
+                {
+                    user? <div>
+                        <Dropdown
                     arrowIcon={false}
                     inline
                     label={
-                        <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />
+                        <Avatar alt="User settings" img={user?.photoURL} rounded />
                     }
                 >
                     <Dropdown.Header>
-                        <span className="block text-sm">Bonnie Green</span>
-                        <span className="block truncate text-sm font-medium">name@flowbite.com</span>
+                        <span className="block text-sm font-bold">{user?.displayName}</span>
+                        <span className="block truncate text-xs font-medium">{user?.email}</span>
                     </Dropdown.Header>
                     <Dropdown.Item>Dashboard</Dropdown.Item>
                     <Dropdown.Item>Offers</Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item>Sign out</Dropdown.Item>
+                    <Dropdown.Item onClick={handleLogOut} className='text-red-600 font-bold'>Sign Out</Dropdown.Item>
                 </Dropdown>
+                
+                
                 <Navbar.Toggle />
-            </div>
+                    </div> : <Link to='/login'><button className='bg-[#ffb229] text-sm text-white font-bold px-3 py-2 rounded-md hover:bg-white hover:text-[#ffb229]'>Login</button></Link>
+                }
+                
+                
+            </div> 
+            
             <Navbar.Collapse>
                 <NavLink to='/' className={({ isActive, isPending }) =>
                     isPending ? "pending" : isActive ? "border-b-2 border-[#ffb229] font-black" : "hover:border-b-2 hover:border-[#ffb229] font-black"

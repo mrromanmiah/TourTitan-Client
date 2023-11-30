@@ -46,6 +46,3 @@ const Banner = () => {
 export default Banner;
 
 
-// https://i.ibb.co/bQ7LmhM/tuxpi-com-1701161445.jpg
-// https://i.ibb.co/NCG7mtC/tuxpi-com-1701161427.jpg
-// https://i.ibb.co/7Y5gPJG/tuxpi-com-1701161410.jpg
