@@ -3,11 +3,13 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
 
 const Login = () => {
     const { signIn, googleSignIn } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic()
     const location = useLocation()
     const navigate = useNavigate();
     const [registerError, setRegisterError] = useState('');
@@ -65,13 +67,23 @@ const Login = () => {
         googleSignIn()
             .then(result => {
                 console.log(result);
-                setSuccess("Successfully logged in")
-                Swal.fire(
-                    'Good job!',
-                    'Successfully logged in',
-                    'success'
-                )
-                navigate(location?.state ? location.state : '/')
+                const userInfo = {
+                    email: result.user?.email,
+                    name: result.user?.displayName,
+                    photoURL: result.user?.photoURL
+                }
+                axiosPublic.post('/users', userInfo)
+                .then(res =>{
+                    console.log(res.data);
+                    setSuccess("Successfully logged in")
+                    Swal.fire(
+                        'Good job!',
+                        'Successfully logged in',
+                        'success'
+                    )
+                    navigate(location?.state ? location.state : '/')
+                })
+               
             })
             .catch(error => {
                 console.error(error)

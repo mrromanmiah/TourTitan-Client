@@ -1,17 +1,15 @@
 import { useContext, useState } from "react";
-
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
-
-// import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false)
-    // const axiosPublic = useAxiosPublic();
+    const axiosPublic = useAxiosPublic();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const { createUser, updateUserProfile } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -24,39 +22,26 @@ const Register = () => {
                 console.log(loggedUser);
                 updateUserProfile(data.name, data.photoURL)
                     .then(() => {
-                        reset();
-                        Swal.fire({
-                            title: "Good job!",
-                            text: "You have registered successfully!",
-                            icon: "success"
-                        });
-                        navigate('/');
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email,
+                            photoURL: data.photoURL
+                        }
+                        axiosPublic.post('/users', userInfo)
+                        .then(res => {
+                            if (res.data.insertedId) {
+                                reset();
+                                Swal.fire({
+                                    title: "Good job!",
+                                    text: "You have registered successfully!",
+                                    icon: "success"
+                                });
+                                navigate('/');
+                            }
+                        })
+                        
                     })
-                // updateUserProfile(data.name, data.photoURL)
-                //     .then(() => {
-                //         const userInfo = {
-                //             name: data.name,
-                //             email: data.email
-                //         }
-                //         axiosPublic.post('/users', userInfo)
-                //             .then(res => {
-                //                 if (res.data.insertedId) {
-                //                     console.log('user added to the database')
-                //                     reset();
-                //                     Swal.fire({
-                //                         position: 'center',
-                //                         icon: 'success',
-                //                         title: 'User created successfully.',
-                //                         showConfirmButton: false,
-                //                         timer: 1500
-                //                     });
-                //                     navigate('/');
-                //                 }
-                //             })
-
-
-                //     })
-                //     .catch(error => console.log(error))
+                    .catch(error => console.log(error))
             })
     };
 

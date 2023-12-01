@@ -33,7 +33,7 @@ const NavBar = () => {
                         <span className="block text-sm font-bold">{user?.displayName}</span>
                         <span className="block truncate text-xs font-medium">{user?.email}</span>
                     </Dropdown.Header>
-                    <Dropdown.Item>Dashboard</Dropdown.Item>
+                    <NavLink to='/dashboard'><Dropdown.Item>Dashboard</Dropdown.Item></NavLink>
                     <Dropdown.Item>Offers</Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item onClick={handleLogOut} className='text-red-600 font-bold'>Sign Out</Dropdown.Item>

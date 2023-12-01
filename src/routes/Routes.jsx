@@ -12,6 +12,7 @@ import PackageByType from "../components/tourTypes/PackageByType";
 import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import Details from "../pages/details/Details";
+import Dashboard from "../layout/Dashboard";
 
 
 
@@ -64,4 +65,13 @@ export const router = createBrowserRouter([
               },
         ],
     },
+    {
+        path: "/dashboard",
+        element: <Dashboard></Dashboard>,
+        children: [
+            {
+                
+            }
+        ]
+    }
 ]);
