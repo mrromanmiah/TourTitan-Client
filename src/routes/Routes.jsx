@@ -13,6 +13,7 @@ import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import Details from "../pages/details/Details";
 import Dashboard from "../layout/Dashboard";
+import UserProfile from "../pages/dashboard/UserProfile";
 
 
 
@@ -70,7 +71,8 @@ export const router = createBrowserRouter([
         element: <Dashboard></Dashboard>,
         children: [
             {
-                
+                path: '/userProfile',
+                element: <UserProfile></UserProfile>
             }
         ]
     }

@@ -32,7 +32,7 @@ const Dashboard = () => {
                             <div className="divider"></div>
                             
                             {/* Sidebar content here */}
-                            <li><Link><FaUser></FaUser> My Profile</Link></li>
+                            <li><Link to='/dashboard/userProfile'><FaUser></FaUser> My Profile</Link></li>
                             <li><Link><FaShoppingCart></FaShoppingCart> My Bookings</Link></li>
                             <li><Link><FaHeart></FaHeart> My Wishlist</Link></li>
                             <div className="divider"></div>
