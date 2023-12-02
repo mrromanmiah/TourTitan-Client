@@ -13,7 +13,9 @@ import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import Details from "../pages/details/Details";
 import Dashboard from "../layout/Dashboard";
-import UserProfile from "../pages/dashboard/UserProfile";
+import UserProfile from "../pages/dashboard/user/UserProfile";
+import Bookings from "../pages/dashboard/user/Bookings";
+import Wishlist from "../pages/dashboard/user/Wishlist";
 
 
 
@@ -71,8 +73,16 @@ export const router = createBrowserRouter([
         element: <Dashboard></Dashboard>,
         children: [
             {
-                path: '/userProfile',
+                path: '/dashboard/userProfile',
                 element: <UserProfile></UserProfile>
+            },
+            {
+                path: '/dashboard/bookings',
+                element: <Bookings></Bookings>
+            },
+            {
+                path: '/dashboard/wishlist',
+                element: <Wishlist></Wishlist>
             }
         ]
     }

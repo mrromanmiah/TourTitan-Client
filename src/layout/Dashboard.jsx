@@ -1,4 +1,4 @@
-import { FaEnvelope, FaHeart, FaInfo, FaShoppingCart, FaUser } from "react-icons/fa";
+import { FaEnvelope, FaHeart, FaInfo, FaShoppingCart, FaThList, FaUser } from "react-icons/fa";
 import { FaHouse, FaNewspaper } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RiCommunityFill } from "react-icons/ri";
@@ -32,15 +32,17 @@ const Dashboard = () => {
                             <div className="divider"></div>
                             
                             {/* Sidebar content here */}
+                            
                             <li><Link to='/dashboard/userProfile'><FaUser></FaUser> My Profile</Link></li>
-                            <li><Link><FaShoppingCart></FaShoppingCart> My Bookings</Link></li>
-                            <li><Link><FaHeart></FaHeart> My Wishlist</Link></li>
+                            <li><Link to='/dashboard/bookings'><FaShoppingCart></FaShoppingCart> My Bookings</Link></li>
+                            <li><Link to='/dashboard/wishlist'><FaHeart></FaHeart> My Wishlist</Link></li>
                             <div className="divider"></div>
                             <li><Link to='/'><FaHouse></FaHouse> Home</Link></li>
-                            <li><Link><RiCommunityFill></RiCommunityFill> Community</Link></li>
-                            <li><Link><FaNewspaper></FaNewspaper> Blogs</Link></li>
-                            <li><Link><FaInfo></FaInfo> About Us</Link></li>
-                            <li><Link><FaEnvelope></FaEnvelope> Contact Us</Link></li>
+                            <li><Link to='/allPackages'><FaThList></FaThList> All Packages</Link></li>
+                            <li><Link to='/community'><RiCommunityFill></RiCommunityFill> Community</Link></li>
+                            <li><Link to='/blogs'><FaNewspaper></FaNewspaper> Blogs</Link></li>
+                            <li><Link to='/aboutUs'><FaInfo></FaInfo> About Us</Link></li>
+                            <li><Link to='/contactUs'><FaEnvelope></FaEnvelope> Contact Us</Link></li>
                             
                         </ul>
 
@@ -50,10 +52,6 @@ const Dashboard = () => {
             </div>
             <div className="bg-gray-100 w-full rounded-lg my-4 mr-4 py-4 px-10">
                 <Outlet></Outlet>
-                <h1>roman</h1>
-                <h1>roman</h1>
-                <h1>roman</h1>
-                <h1>roman</h1>
             </div>
         </div>
     );
