@@ -45,7 +45,7 @@ const Register = () => {
             })
     };
 
-
+    
 
     return (
         <div className='lg:mx-40 md:mx-10 mx-5 mb-20'>

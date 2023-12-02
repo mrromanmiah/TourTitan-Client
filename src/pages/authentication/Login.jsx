@@ -126,7 +126,7 @@ const Login = () => {
             <div className="divider text-[#ffb229]  w-1/3 flex justify-center mx-auto font-medium dark:text-gray-600">OR</div>
 
             <div className="space-y-2 pb-20">
-                <button onClick={handleGoogleLogin} className="btn bg-slate-200 hover:text-[#ffb229] mt-4 rounded-full px-4 py-2 flex items-center mx-auto">Login With <img className="w-8 h-8 ml-2" src={'https://i.ibb.co/vVdgSTt/google-1.png'} alt="" /></button>
+                <button onClick={handleGoogleLogin} className="bg-gray-300 text-black hover:bg-[#ffb229] hover:text-white font-bold text-sm mt-4 rounded-full px-4 py-2 flex items-center mx-auto">Login With <img className="w-8 h-8 ml-2" src={'https://i.ibb.co/vVdgSTt/google-1.png'} alt="" /></button>
                 <p className="text-center dark:text-white">Don't have an account? <Link className="text-[#ffb229]  font-bold hover:underline" to='/register'>Register</Link></p>
             </div>
         </div>

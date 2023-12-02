@@ -1,9 +1,59 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+
 
 
 const PackagesCard = ({ tourPackage }) => {
 
-  const {_id, image, tourType, tripTitle, price } = tourPackage || {};
+  const { _id, image, tourType, tripTitle, price} = tourPackage || {};
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const axiosSecure = useAxiosSecure();
+
+  const handleAddToWishlist = tour => {
+   if(user && user.email){
+    console.log(user.email, tour);
+    const wishPackages = {
+        wishId: _id,
+        email: user.email,
+        image,
+        tripTitle,
+        tourType,
+        price
+    }
+
+    // module 67-4 (4.12 minutes)
+
+    axiosSecure.post('/wishlist', wishPackages) 
+    .then(res => {
+      if(res.data.insertedId){
+        Swal.fire({
+          title: "Thanks!",
+          text: "This package added to your wishlist!",
+          icon: "success"
+        });
+      }
+    })
+   }
+   else{
+    Swal.fire({
+      title: "Add it to the wishlist?",
+      text: "You need to login now!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#29b3ff",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, login!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate(location?.state ? location.state : '/login');
+      }
+    });
+   }
+  }
 
   return (
     <div className="relative flex w-full flex-col rounded-xl bg-white bg-clip-border shadow-lg">
@@ -13,7 +63,7 @@ const PackagesCard = ({ tourPackage }) => {
           alt="ui/ux review check"
         />
         <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
-        <button
+        <button onClick={()=> handleAddToWishlist(tourPackage)}
           className="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button"
           data-ripple-dark="true"
