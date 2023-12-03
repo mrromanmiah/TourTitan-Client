@@ -4,18 +4,20 @@ import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-
-
 const Wishlist = () => {
     const [wish, refetch] = useWishlist()
     const axiosSecure = useAxiosSecure();
+
+
+
+    
     const handleDelete = id => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
+            confirmButtonColor: "#29b3ff",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
@@ -27,7 +29,7 @@ const Wishlist = () => {
                             refetch();
                             Swal.fire({
                                 title: "Deleted!",
-                                text: "Your file has been deleted.",
+                                text: "Your package has been deleted.",
                                 icon: "success"
                             });
                         }
@@ -45,7 +47,7 @@ const Wishlist = () => {
 
 
             <div>
-                <div className="overflow-x-auto rounded-xl">
+                <div className="overflow-x-auto rounded-xl bg-white">
                     <table className="table">
 
                         <thead className="bg-[#ffb229] text-sm text-white">

@@ -1,8 +1,56 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useWishlist from "../../hooks/useWishlist";
+import Swal from "sweetalert2";
 
 
-const AllPackageCard = ({allPackage}) => {
-    const {_id, image, tourType, tripTitle, price } = allPackage || {};
+const AllPackageCard = ({ allPackage }) => {
+  const { _id, image, tourType, tripTitle, price } = allPackage || {};
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const axiosSecure = useAxiosSecure();
+  const [, refetch] = useWishlist();
+
+  const handleAddToWishlist = () => {
+    if (user && user.email) {
+      const wishPackages = {
+        wishId: _id,
+        email: user.email,
+        image,
+        tripTitle,
+        tourType,
+        price
+      }
+      axiosSecure.post('/wishlist', wishPackages)
+        .then(res => {
+          if (res.data.insertedId) {
+            Swal.fire({
+              title: "Thanks!",
+              text: "This package added to your wishlist!",
+              icon: "success"
+            });
+            refetch()
+          }
+        })
+    }
+    else {
+      Swal.fire({
+        title: "Add it to the wishlist?",
+        text: "You need to login now!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#29b3ff",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, login!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate(location?.state ? location.state : '/login');
+        }
+      });
+    }
+  }
 
   return (
     <div className="relative flex w-full flex-col rounded-xl bg-white bg-clip-border shadow-lg">
@@ -12,7 +60,7 @@ const AllPackageCard = ({allPackage}) => {
           alt="ui/ux review check"
         />
         <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
-        <button
+        <button onClick={handleAddToWishlist}
           className="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button"
           data-ripple-dark="true"
@@ -46,13 +94,13 @@ const AllPackageCard = ({allPackage}) => {
       </div>
       <div className="p-6 pt-3">
         <Link to={`/details/${_id}`} >
-        <button
-          className="block w-full select-none rounded-lg bg-[#ffb229] py-2 text-center align-middle lg:text-lg md:text-base text-sm font-bold text-white shadow-md shadow-[#ffb229]/20 transition-all hover:shadow-lg hover:shadow-[#ffb229]/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button"
-          data-ripple-light="true"
-        >
-          View Package
-        </button>
+          <button
+            className="block w-full select-none rounded-lg bg-[#ffb229] py-2 text-center align-middle lg:text-lg md:text-base text-sm font-bold text-white shadow-md shadow-[#ffb229]/20 transition-all hover:shadow-lg hover:shadow-[#ffb229]/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            type="button"
+            data-ripple-light="true"
+          >
+            View Package
+          </button>
         </Link>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { FaEnvelope, FaHeart, FaInfo, FaShoppingCart, FaThList, FaUser } from "react-icons/fa";
+import { FaEnvelope, FaHeart, FaInfo, FaPlusCircle, FaShoppingCart, FaThList, FaUser, FaUsersCog } from "react-icons/fa";
 import { FaHouse, FaNewspaper } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RiCommunityFill } from "react-icons/ri";
@@ -7,6 +7,9 @@ import { Link, Outlet } from "react-router-dom";
 
 
 const Dashboard = () => {
+
+const isAdmin =true;
+
     return (
         <div className="lg:flex md:flex-none flex-none lg:m-0 m-4 gap-4">
             <div>
@@ -33,9 +36,17 @@ const Dashboard = () => {
                             
                             {/* Sidebar content here */}
                             
-                            <li><Link to='/dashboard/userProfile'><FaUser></FaUser> My Profile</Link></li>
-                            <li><Link to='/dashboard/bookings'><FaShoppingCart></FaShoppingCart> My Bookings</Link></li>
-                            <li><Link to='/dashboard/wishlist'><FaHeart></FaHeart> My Wishlist</Link></li>
+                            {
+                                isAdmin? <> 
+                                <li><Link to='/dashboard/adminProfile'><FaUser></FaUser> My Profile</Link></li>
+                            <li><Link to='/dashboard/addPackage'><FaPlusCircle></FaPlusCircle> Add Package</Link></li>
+                            <li><Link to='/dashboard/manageUser'><FaUsersCog></FaUsersCog> Manage Users</Link></li>
+                                </> : 
+                                <>
+                                <li><Link to='/dashboard/userProfile'><FaUser></FaUser> My Profile</Link></li>
+                                <li><Link to='/dashboard/bookings'><FaShoppingCart></FaShoppingCart> My Bookings</Link></li>
+                                <li><Link to='/dashboard/wishlist'><FaHeart></FaHeart> My Wishlist</Link></li></>
+                            }
                             <div className="divider"></div>
                             <li><Link to='/'><FaHouse></FaHouse> Home</Link></li>
                             <li><Link to='/allPackages'><FaThList></FaThList> All Packages</Link></li>

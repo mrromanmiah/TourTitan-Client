@@ -1,7 +1,57 @@
+import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useWishlist from "../../hooks/useWishlist";
+import Swal from "sweetalert2";
 
 
 const PackageByTypeCard = ({ packageByType }) => {
-    const { image, tourType, tripTitle, price } = packageByType || {};
+    const { _id, image, tourType, tripTitle, price } = packageByType || {};
+    const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const axiosSecure = useAxiosSecure();
+  const [, refetch] = useWishlist();
+
+  const handleAddToWishlist = () => {
+    if (user && user.email) {
+      const wishPackages = {
+        wishId: _id,
+        email: user.email,
+        image,
+        tripTitle,
+        tourType,
+        price
+      }
+      axiosSecure.post('/wishlist', wishPackages)
+        .then(res => {
+          if (res.data.insertedId) {
+            Swal.fire({
+              title: "Thanks!",
+              text: "This package added to your wishlist!",
+              icon: "success"
+            });
+            refetch()
+          }
+        })
+    }
+    else {
+      Swal.fire({
+        title: "Add it to the wishlist?",
+        text: "You need to login now!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#29b3ff",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, login!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate(location?.state ? location.state : '/login');
+        }
+      });
+    }
+  }
+
     return (
         <div className="relative flex w-full flex-col rounded-xl bg-white bg-clip-border shadow-lg">
             <div className="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
@@ -10,7 +60,7 @@ const PackageByTypeCard = ({ packageByType }) => {
                     alt="ui/ux review check"
                 />
                 <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
-                <button
+                <button onClick={handleAddToWishlist}
                     className="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     type="button"
                     data-ripple-dark="true"

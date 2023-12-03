@@ -25,9 +25,6 @@ const PackagesCard = ({ tourPackage }) => {
         tourType,
         price
     }
-
-    
-
     axiosSecure.post('/wishlist', wishPackages) 
     .then(res => {
       if(res.data.insertedId){

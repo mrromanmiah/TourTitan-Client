@@ -16,6 +16,10 @@ import Dashboard from "../layout/Dashboard";
 import UserProfile from "../pages/dashboard/user/UserProfile";
 import Bookings from "../pages/dashboard/user/Bookings";
 import Wishlist from "../pages/dashboard/user/Wishlist";
+import PrivateRoute from "./PrivateRoute";
+import AdminProfile from "../pages/dashboard/admin/AdminProfile";
+import AddPackage from "../pages/dashboard/admin/AddPackage";
+import ManageUser from "../pages/dashboard/admin/ManageUser";
 
 
 
@@ -70,7 +74,7 @@ export const router = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        element: <Dashboard></Dashboard>,
+        element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         children: [
             {
                 path: '/dashboard/userProfile',
@@ -83,7 +87,22 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/wishlist',
                 element: <Wishlist></Wishlist>
-            }
+            },
+
+            // Admin Dashboard
+
+            {
+                path: '/dashboard/adminProfile',
+                element: <AdminProfile></AdminProfile>
+            },
+            {
+                path: '/dashboard/addPackage',
+                element: <AddPackage></AddPackage>
+            },
+            {
+                path: '/dashboard/manageUser',
+                element: <ManageUser></ManageUser>
+            },
         ]
     }
 ]);
