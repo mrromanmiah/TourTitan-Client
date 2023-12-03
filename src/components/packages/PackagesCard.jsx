@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useWishlist from "../../hooks/useWishlist";
 
 
 
@@ -12,10 +13,10 @@ const PackagesCard = ({ tourPackage }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const axiosSecure = useAxiosSecure();
+  const [, refetch] = useWishlist();
 
-  const handleAddToWishlist = tour => {
+  const handleAddToWishlist = () => {
    if(user && user.email){
-    console.log(user.email, tour);
     const wishPackages = {
         wishId: _id,
         email: user.email,
@@ -25,7 +26,7 @@ const PackagesCard = ({ tourPackage }) => {
         price
     }
 
-    // module 67-4 (4.12 minutes)
+    
 
     axiosSecure.post('/wishlist', wishPackages) 
     .then(res => {
@@ -35,6 +36,7 @@ const PackagesCard = ({ tourPackage }) => {
           text: "This package added to your wishlist!",
           icon: "success"
         });
+        refetch()
       }
     })
    }
@@ -63,7 +65,7 @@ const PackagesCard = ({ tourPackage }) => {
           alt="ui/ux review check"
         />
         <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
-        <button onClick={()=> handleAddToWishlist(tourPackage)}
+        <button onClick={handleAddToWishlist}
           className="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button"
           data-ripple-dark="true"
