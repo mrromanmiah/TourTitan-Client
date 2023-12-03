@@ -3,12 +3,13 @@ import { FaHouse, FaNewspaper } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RiCommunityFill } from "react-icons/ri";
 import { Link, Outlet } from "react-router-dom";
+import useAdmin from "../hooks/useAdmin";
 
 
 
 const Dashboard = () => {
 
-const isAdmin =true;
+    const [isAdmin] = useAdmin()
 
     return (
         <div className="lg:flex md:flex-none flex-none lg:m-0 m-4 gap-4">
@@ -19,9 +20,9 @@ const isAdmin =true;
                     <div className="drawer-content flex justify-between items-center">
                         <label htmlFor="my-drawer-2" className="btn btn-ghost drawer-button lg:hidden"><GiHamburgerMenu /></label>
                         <div className="flex items-center my-4 mr-4 lg:hidden">
-                                <img src="https://i.ibb.co/0CqrHSh/Asset-2.png" className="mr-3 h-6" alt="TourTitan Logo" />
-                                <span className="self-center whitespace-nowrap text-xl text-black font-semibold"><span className='text-[#ffb229]'>Tour</span>Titan</span>
-                            </div>
+                            <img src="https://i.ibb.co/0CqrHSh/Asset-2.png" className="mr-3 h-6" alt="TourTitan Logo" />
+                            <span className="self-center whitespace-nowrap text-xl text-black font-semibold"><span className='text-[#ffb229]'>Tour</span>Titan</span>
+                        </div>
                     </div>
                     <div className="drawer-side">
                         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
@@ -33,19 +34,19 @@ const isAdmin =true;
                             <div className="divider"></div>
                             <h3 className="text-xl text-[#29b3ff] text-center font-bold">Dashboard</h3>
                             <div className="divider"></div>
-                            
+
                             {/* Sidebar content here */}
-                            
+
                             {
-                                isAdmin? <> 
-                                <li><Link to='/dashboard/adminProfile'><FaUser></FaUser> My Profile</Link></li>
-                            <li><Link to='/dashboard/addPackage'><FaPlusCircle></FaPlusCircle> Add Package</Link></li>
-                            <li><Link to='/dashboard/manageUser'><FaUsersCog></FaUsersCog> Manage Users</Link></li>
-                                </> : 
-                                <>
-                                <li><Link to='/dashboard/userProfile'><FaUser></FaUser> My Profile</Link></li>
-                                <li><Link to='/dashboard/bookings'><FaShoppingCart></FaShoppingCart> My Bookings</Link></li>
-                                <li><Link to='/dashboard/wishlist'><FaHeart></FaHeart> My Wishlist</Link></li></>
+                                isAdmin ? <>
+                                    <li><Link to='/dashboard/adminProfile'><FaUser></FaUser> My Profile</Link></li>
+                                    <li><Link to='/dashboard/addPackage'><FaPlusCircle></FaPlusCircle> Add Package</Link></li>
+                                    <li><Link to='/dashboard/manageUser'><FaUsersCog></FaUsersCog> Manage Users</Link></li>
+                                </> :
+                                    <>
+                                        <li><Link to='/dashboard/userProfile'><FaUser></FaUser> My Profile</Link></li>
+                                        <li><Link to='/dashboard/bookings'><FaShoppingCart></FaShoppingCart> My Bookings</Link></li>
+                                        <li><Link to='/dashboard/wishlist'><FaHeart></FaHeart> My Wishlist</Link></li></>
                             }
                             <div className="divider"></div>
                             <li><Link to='/'><FaHouse></FaHouse> Home</Link></li>
@@ -54,7 +55,7 @@ const isAdmin =true;
                             <li><Link to='/blogs'><FaNewspaper></FaNewspaper> Blogs</Link></li>
                             <li><Link to='/aboutUs'><FaInfo></FaInfo> About Us</Link></li>
                             <li><Link to='/contactUs'><FaEnvelope></FaEnvelope> Contact Us</Link></li>
-                            
+
                         </ul>
 
                     </div>

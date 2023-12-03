@@ -20,12 +20,13 @@ const Register = () => {
             .then(result => {
                 const loggedUser = result.user;
                 console.log(loggedUser);
-                updateUserProfile(data.name, data.photoURL)
+                updateUserProfile(data.name, data.photoURL, data.role)
                     .then(() => {
                         const userInfo = {
                             name: data.name,
                             email: data.email,
-                            photoURL: data.photoURL
+                            photoURL: data.photoURL,
+                            role: data.role
                         }
                         axiosPublic.post('/users', userInfo)
                         .then(res => {
@@ -68,6 +69,12 @@ const Register = () => {
 
                     <input className="rounded-full border-2 py-2 px-6 lg:w-1/3 focus:border-[#ffb229]" type="text" {...register("photoURL", { required: true })} name="photoURL" placeholder="Your photo URL" />
                     {errors.photoURL && <span className="text-red-600">Photo URL is required</span>}
+
+                </div>
+                <div className="text-center space-y-2">
+
+                    <input className="rounded-full border-2 py-2 px-6 lg:w-1/3 focus:border-[#ffb229] hidden" type="text" {...register("role", { required: true })} name="role" placeholder="Your current role" defaultValue={"tourist"} readOnly/>
+                    {errors.role && <span className="text-red-600">Role is required</span>}
 
                 </div>
                 <div className="text-center space-y-2">

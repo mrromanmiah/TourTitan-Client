@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 
 const ManageUser = () => {
     const axiosSecure = useAxiosSecure()
-    const { data: users = [] } = useQuery({
+    const { data: users = [], refetch } = useQuery({
         queryKey: ['user'],
         queryFn: async () => {
             const res = await axiosSecure.get('/users')
@@ -13,7 +14,36 @@ const ManageUser = () => {
     })
 
     const handleMakeAdmin = user => {
-        // module 68-6
+        axiosSecure.patch(`/users/admin/${user._id}`)
+            .then(res => {
+                console.log(res.data);
+                if (res.data.modifiedCount > 0) {
+                    refetch()
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: `${user.name} is an admin now!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+    }
+    const handleMakeGuide = user => {
+        axiosSecure.patch(`/users/guide/${user._id}`)
+            .then(res => {
+                console.log(res.data);
+                if (res.data.modifiedCount > 0) {
+                    refetch()
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: `${user.name} is a tour guide now!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
     }
 
     return (
@@ -70,10 +100,25 @@ const ManageUser = () => {
                                     <td>
                                         <div className="font-bold">{user.role}</div>
                                     </td>
-                                    <td><button onClick={() => handleMakeAdmin(user)} className="btn btn-sm bg-[#29b3ff] text-white">Make Guide</button></td>
+                                    <td>
+                                        <button
+                                            onClick={() => handleMakeGuide(user)}
+                                            className={`btn btn-sm bg-[#29b3ff] text-white ${user.role === 'admin' || user.role === 'guide' ? 'disabled' : ''}`}
+                                            disabled={user.role === 'admin' || user.role === 'guide'}
+                                        >
+                                            Make Guide
+                                        </button>
+                                    </td>
                                     <th>
-                                        <button className="btn btn-sm bg-[#ffb229] text-white">Make Admin</button>
+                                        <button
+                                            onClick={() => handleMakeAdmin(user)}
+                                            className={`btn btn-sm bg-[#ffb229] text-white ${user.role === 'admin' || user.role === 'guide' ? 'disabled' : ''}`}
+                                            disabled={user.role === 'admin' || user.role === 'guide'}
+                                        >
+                                            Make Admin
+                                        </button>
                                     </th>
+
                                 </tr>)
                             }
 
