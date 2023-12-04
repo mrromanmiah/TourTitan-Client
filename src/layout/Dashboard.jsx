@@ -46,7 +46,7 @@ const {user} =useAuth()
 
                             {
                                 isAdmin ? (<>
-                                    <li><Link to={`/dashboard/adminProfile/${user.email}`}><FaUser></FaUser> My Profile</Link></li>
+                                    <li><Link to={`/dashboard/adminProfile/${user?.email}`}><FaUser></FaUser> My Profile</Link></li>
                                     <li><Link to='/dashboard/addPackage'><FaPlusCircle></FaPlusCircle> Add Package</Link></li>
                                     <li><Link to='/dashboard/manageUser'><FaUsersCog></FaUsersCog> Manage Users</Link></li>
                                 </>) :
@@ -55,7 +55,7 @@ const {user} =useAuth()
                                     <li><Link to='/dashboard/assignedTour'><MdAssignment></MdAssignment> My Assigned Tours</Link></li>
                                 </>)
                                     :(<>
-                                        <li><Link to={`/dashboard/userProfile/${user.email}`}><FaUser></FaUser> My Profile</Link></li>
+                                        <li><Link to={`/dashboard/userProfile/${user?.email}`}><FaUser></FaUser> My Profile</Link></li>
                                         <li><Link to='/dashboard/bookings'><FaShoppingCart></FaShoppingCart> My Bookings</Link></li>
                                         <li><Link to='/dashboard/wishlist'><FaHeart></FaHeart> My Wishlist</Link></li></>)
                             }

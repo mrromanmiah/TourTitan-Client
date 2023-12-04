@@ -2,9 +2,26 @@ import { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import Packages from '../../../../components/packages/Packages';
+import { useEffect } from 'react';
+import TourGuides from './TourGuides';
 
 const TravelGuide = () => {
     const [tabIndex, setTabIndex] = useState(0)
+
+    const [guides, setGuides] = useState([]);
+
+    useEffect(() => {
+        fetch('https://tour-titan-server.vercel.app/users')
+            .then(res => res.json())
+            .then(data => {
+                const guideUsers = data.filter(user => user.role === 'guide');
+                console.log(guideUsers);
+                setGuides(guideUsers);
+            });
+    }, []);
+
+
+
     return (
         <div className='lg:mx-40 md:mx-10 mx-5'>
             <div className="text-center my-10">
@@ -53,7 +70,7 @@ const TravelGuide = () => {
 
 
                         <TabPanel>
-                            <h2>Any content 3</h2>
+                            <TourGuides filteredData={guides}></TourGuides>
                         </TabPanel>
                     </div>
                 </Tabs>

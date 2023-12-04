@@ -1,8 +1,65 @@
 import { Accordion } from 'flowbite-react';
 import { FaArrowAltCircleRight } from "react-icons/fa";
+import { useContext } from 'react';
+import { AuthContext } from '../../providers/AuthProvider';
+import Swal from 'sweetalert2';
 
 const DetailsCard = ({ details, filteredData }) => {
     const { tripTitle, gallery, description, tourType, price, tourPlan } = details || {};
+    const { user } = useContext(AuthContext)
+
+    const handleBookings = event => {
+        event.preventDefault();
+        const form = event.target;
+
+        const tripTitle = form.tripTitle.value;
+        const name = form.name.value;
+        const email = form.email.value;
+        const photo = form.photo.value;
+        const price = form.price.value;
+        const date = form.date.value;
+        const guide = form.guide.value;
+        const status = form.status.value;
+
+        const newBooking = {
+            tripTitle,
+            name,
+            email,
+            photo,
+            price,
+            date,
+            guide,
+            status
+        }
+
+        fetch('https://tour-titan-server.vercel.app/bookings', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newBooking)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    Swal.fire(
+                        'Good job!',
+                        'You booked this package successfully!',
+                        'success'
+                    )
+                    form.reset();
+                }
+            })
+
+
+    }
+
+
+
+
+
+
+
 
     return (
         <div className='lg:mx-40 md:mx-10 mx-5 mb-20'>
@@ -88,31 +145,57 @@ const DetailsCard = ({ details, filteredData }) => {
             <div className="mt-10 ">
                 <h1 className="text-2xl font-black text-[#ffb229] underline text-center">Booking Form</h1>
 
-<div>
-<form  className="space-y-4">
-                    <div>
-                        <p className="mb-1 font-bold text-[#29b3ff]">Package Image</p>
-                        <input className="w-full px-4 py-2 rounded-lg" type="text" name="image" placeholder="Package Image URL" />
-                    </div>
-                    <div>
-                        <p className="mb-1 font-bold text-[#29b3ff]">Trip Title</p>
-                        <input className="w-full px-4 py-2 rounded-lg" type="text" name="tripTitle" placeholder="Trip Title" />
-                    </div>
-                   
+                <div>
+                    <form onSubmit={handleBookings} className="space-y-4">
+                        <div>
+                            <p className="mb-1 font-bold text-[#29b3ff]">Package Name</p>
+                            <input className="w-full px-4 py-2 rounded-lg" type="text" name="tripTitle" value={tripTitle} placeholder="Package Name" readOnly />
+                        </div>
+                        <div className='hidden'>
+                            <p className="mb-1 font-bold text-[#29b3ff]">Booking Status</p>
+                            <input className="w-full px-4 py-2 rounded-lg" type="text" name="status" value={"In Review"} placeholder="Booking Status" readOnly />
+                        </div>
+                        <div>
+                            <p className="mb-1 font-bold text-[#29b3ff]">Tourist Name</p>
+                            <input className="w-full px-4 py-2 rounded-lg" type="text" name="name" value={user?.displayName} placeholder="Tourist Name" readOnly />
+                        </div>
+                        <div>
+                            <p className="mb-1 font-bold text-[#29b3ff]">Tourist Email</p>
+                            <input className="w-full px-4 py-2 rounded-lg" type="email" name="email" value={user?.email} placeholder="Tourist Email" readOnly />
+                        </div>
+                        <div>
+                            <p className="mb-1 font-bold text-[#29b3ff]">Tourist Image</p>
+                            <input className="w-full px-4 py-2 rounded-lg" type="url" name="photo" value={user?.photoURL} placeholder="Tourist Image" readOnly />
+                        </div>
 
-                    <input className="flex items-center mx-auto bg-[#ffb229]  text-white font-bold rounded-full px-6 py-2 hover:bg-gray-300 hover:text-black" type="submit" />
-                </form>
-</div>
-                
+                        <div className='flex justify-between mb-8'>
+                            <div>
+                                <p className="mb-1 font-bold text-[#29b3ff]">Package Price</p>
+                                <input className="w-full px-4 py-2 rounded-lg" type="number" name="price" value={price} placeholder="Package Price" readOnly />
+                            </div>
+                            <div>
+                                <p className="mb-1 font-bold text-[#29b3ff]">Tour Date</p>
+                                <input className="w-full px-4 py-2 rounded-lg" type="date" name="date" placeholder="Tour Date" />
+                            </div>
+                            <div>
+                            <p className="mb-1 font-bold text-[#29b3ff]">Tour Guide</p>
+                            <select className="w-full px-4 py-2 rounded-lg" name="guide">
+                                <option disabled selected>Select Tour Guide</option>
+                                {filteredData.map((guide, index) => (
+                                    <option key={index} value={guide.name}>{guide.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                        </div>
+                        <div className='pt-8'>
+                        <input className="flex items-center mx-auto bg-[#ffb229]  text-white font-bold rounded-full px-6 py-2 hover:bg-gray-300 hover:text-black" type="submit" value="Book Now" />
+                        </div>
+                    </form>
+                </div>
 
 
-                {/* <select className="select select-warning w-full max-w-xs">
-  <option disabled selected>Guides</option>
-  {filteredData.map((guide, index) => (
-                        <option key={index} value={guide.name}>{guide.name}</option>
-                    ))}
-  
-</select> */}
+
+
             </div>
 
         </div>

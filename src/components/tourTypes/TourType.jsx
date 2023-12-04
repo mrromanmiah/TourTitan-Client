@@ -15,7 +15,7 @@ const TourType = () => {
     const [tourTypes, setTourTypes] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/tourType')
+        fetch('https://tour-titan-server.vercel.app/tourType')
             .then(res => res.json())
             .then(data => setTourTypes(data))
     }, [])

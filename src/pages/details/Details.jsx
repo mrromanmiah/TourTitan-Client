@@ -12,7 +12,7 @@ const Details = () => {
     const [guides, setGuides] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/users')
+        fetch('https://tour-titan-server.vercel.app/users')
             .then(res => res.json())
             .then(data => {
                 const guideUsers = data.filter(user => user.role === 'guide');

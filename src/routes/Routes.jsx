@@ -23,6 +23,7 @@ import ManageUser from "../pages/dashboard/admin/ManageUser";
 import GuideProfile from "../pages/dashboard/tourGuide/GuideProfile";
 import AssignedTour from "../pages/dashboard/tourGuide/AssignedTour";
 import AdminRoute from "./AdminRoute";
+import Error from "../pages/Error/Error";
 
 
 
@@ -30,6 +31,7 @@ export const router = createBrowserRouter([
     {
         path: "/",
         element: <Root></Root>,
+        errorElement: <Error></Error>,
         children: [
             {
                 path: '/',
@@ -58,7 +60,7 @@ export const router = createBrowserRouter([
             {
                 path: '/packages/:tourType',
                 element: <PackageByType></PackageByType>,
-                loader: ({params}) => fetch (`http://localhost:5000/packages/${params.tourType}`)
+                loader: ({params}) => fetch (`https://tour-titan-server.vercel.app/packages/${params.tourType}`)
             },
             {
                 path: '/login',
@@ -71,18 +73,19 @@ export const router = createBrowserRouter([
             {
                 path: '/details/:id',
                 element: <Details></Details>,
-                loader: ({params}) => fetch (`http://localhost:5000/package/${params.id}`)
+                loader: ({params}) => fetch (`https://tour-titan-server.vercel.app/package/${params.id}`)
               },
         ],
     },
     {
         path: "/dashboard",
         element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+        errorElement: <Error></Error>,
         children: [
             {
                 path: '/dashboard/userProfile/:email',
                 element: <UserProfile></UserProfile>,
-                loader: ({params}) => fetch (`http://localhost:5000/users/${params.email}`)
+                loader: ({params}) => fetch (`https://tour-titan-server.vercel.app/users/${params.email}`)
             },
             {
                 path: '/dashboard/bookings',
@@ -98,7 +101,7 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/adminProfile/:email',
                 element: <AdminProfile></AdminProfile>,
-                loader: ({params}) => fetch (`http://localhost:5000/users/${params.email}`)
+                loader: ({params}) => fetch (`https://tour-titan-server.vercel.app/users/${params.email}`)
             },
             {
                 path: '/dashboard/addPackage',

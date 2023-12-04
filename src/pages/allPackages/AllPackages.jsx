@@ -8,7 +8,7 @@ const AllPackages = () => {
     const [allPackages, setAllPackages] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/allPackages')
+        fetch('https://tour-titan-server.vercel.app/allPackages')
         .then(res => res.json())
         .then(data => setAllPackages(data))
     },[])
