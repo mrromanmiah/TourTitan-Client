@@ -4,17 +4,20 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { RiCommunityFill } from "react-icons/ri";
 import { Link, Outlet } from "react-router-dom";
 import useAdmin from "../hooks/useAdmin";
+import useGuide from "../hooks/useGuide";
+import { MdAssignment } from "react-icons/md";
+import useAuth from "../hooks/useAuth";
 
 
 
 const Dashboard = () => {
-
+const {user} =useAuth()
     const [isAdmin] = useAdmin()
+    const [isGuide] = useGuide()
 
     return (
         <div className="lg:flex md:flex-none flex-none lg:m-0 m-4 gap-4">
             <div>
-
                 <div className="drawer lg:drawer-open">
                     <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
                     <div className="drawer-content flex justify-between items-center">
@@ -32,21 +35,29 @@ const Dashboard = () => {
                                 <span className="self-center whitespace-nowrap text-2xl text-black font-semibold"><span className='text-[#ffb229]'>Tour</span>Titan</span>
                             </div>
                             <div className="divider"></div>
-                            <h3 className="text-xl text-[#29b3ff] text-center font-bold">Dashboard</h3>
+                            {isAdmin?(<h3 className="text-xl text-[#29b3ff] text-center font-bold">Admin</h3>):
+                            isGuide?(<h3 className="text-xl text-[#29b3ff] text-center font-bold">Tour Guide</h3>):
+                            (<h3 className="text-xl text-[#29b3ff] text-center font-bold">Tourist</h3>)
+                
+                            }
                             <div className="divider"></div>
 
                             {/* Sidebar content here */}
 
                             {
-                                isAdmin ? <>
-                                    <li><Link to='/dashboard/adminProfile'><FaUser></FaUser> My Profile</Link></li>
+                                isAdmin ? (<>
+                                    <li><Link to={`/dashboard/adminProfile/${user.email}`}><FaUser></FaUser> My Profile</Link></li>
                                     <li><Link to='/dashboard/addPackage'><FaPlusCircle></FaPlusCircle> Add Package</Link></li>
                                     <li><Link to='/dashboard/manageUser'><FaUsersCog></FaUsersCog> Manage Users</Link></li>
-                                </> :
-                                    <>
+                                </>) :
+                                isGuide ? (<>
+                                    <li><Link to='/dashboard/guideProfile'><FaUser></FaUser> My Profile</Link></li>
+                                    <li><Link to='/dashboard/assignedTour'><MdAssignment></MdAssignment> My Assigned Tours</Link></li>
+                                </>)
+                                    :(<>
                                         <li><Link to='/dashboard/userProfile'><FaUser></FaUser> My Profile</Link></li>
                                         <li><Link to='/dashboard/bookings'><FaShoppingCart></FaShoppingCart> My Bookings</Link></li>
-                                        <li><Link to='/dashboard/wishlist'><FaHeart></FaHeart> My Wishlist</Link></li></>
+                                        <li><Link to='/dashboard/wishlist'><FaHeart></FaHeart> My Wishlist</Link></li></>)
                             }
                             <div className="divider"></div>
                             <li><Link to='/'><FaHouse></FaHouse> Home</Link></li>
@@ -63,6 +74,7 @@ const Dashboard = () => {
 
             </div>
             <div className="bg-gray-100 w-full rounded-lg my-4 mr-4 py-4 px-10">
+                
                 <Outlet></Outlet>
             </div>
         </div>

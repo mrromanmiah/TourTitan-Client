@@ -20,6 +20,8 @@ import PrivateRoute from "./PrivateRoute";
 import AdminProfile from "../pages/dashboard/admin/AdminProfile";
 import AddPackage from "../pages/dashboard/admin/AddPackage";
 import ManageUser from "../pages/dashboard/admin/ManageUser";
+import GuideProfile from "../pages/dashboard/tourGuide/GuideProfile";
+import AssignedTour from "../pages/dashboard/tourGuide/AssignedTour";
 
 
 
@@ -92,8 +94,9 @@ export const router = createBrowserRouter([
             // Admin Dashboard
 
             {
-                path: '/dashboard/adminProfile',
-                element: <AdminProfile></AdminProfile>
+                path: '/dashboard/adminProfile/:email',
+                element: <AdminProfile></AdminProfile>,
+                loader: ({params}) => fetch (`http://localhost:5000/users/${params.email}`)
             },
             {
                 path: '/dashboard/addPackage',
@@ -103,6 +106,17 @@ export const router = createBrowserRouter([
                 path: '/dashboard/manageUser',
                 element: <ManageUser></ManageUser>
             },
+
+            // Tour Guide Dashboard
+
+            {
+                path: '/dashboard/guideProfile',
+                element: <GuideProfile></GuideProfile>
+            },
+            {
+                path: '/dashboard/assignedTour',
+                element: <AssignedTour></AssignedTour>
+            }
         ]
     }
 ]);
